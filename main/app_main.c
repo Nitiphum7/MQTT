@@ -54,7 +54,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     switch ((esp_mqtt_event_id_t)event_id) {
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-        msg_id = esp_mqtt_client_subscribe(client, "KMITL/SIET/65030096/LED", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "KMITL/SIET/65030130/LED", 0);
         ESP_LOGI(TAG, "Subscribed to topic, msg_id=%d", msg_id);
         break;
     case MQTT_EVENT_DISCONNECTED:
@@ -124,7 +124,7 @@ static void button_task(void *arg)
     while (gpio_get_level(BUTTON_GPIO) == 1) {  // While button is pressed
         if (!button_pressed) {
             button_pressed = true;
-            int msg_id = esp_mqtt_client_publish(client, "KMITL/SIET/65030096/Button", "1", 0, 1, 0);
+            int msg_id = esp_mqtt_client_publish(client, "KMITL/SIET/65030130/Button", "1", 0, 1, 0);
             ESP_LOGI(TAG, "Button pressed, published '1', msg_id=%d", msg_id);
         }
         // Continue publishing while button is held
@@ -133,7 +133,7 @@ static void button_task(void *arg)
  
     if (button_pressed) {
         // Button released, send "0"
-        int msg_id = esp_mqtt_client_publish(client, "KMITL/SIET/65030096/Button", "0", 0, 1, 0);
+        int msg_id = esp_mqtt_client_publish(client, "KMITL/SIET/65030130/Button", "0", 0, 1, 0);
         ESP_LOGI(TAG, "Button released, published '0', msg_id=%d", msg_id);
         button_pressed = false;
     }
